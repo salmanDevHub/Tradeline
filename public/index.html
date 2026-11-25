@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tradeline · B2B Console</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='21' fill='%23fff' stroke='%23111a3b' stroke-width='3'/%3E%3Ctext x='24' y='33' text-anchor='middle' font-family='Georgia' font-size='26' font-weight='700' fill='%23111a3b'%3ET%3C/text%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#111a3b;--navy2:#1b2751;--ink:#18203a;--mute:#6a7391;--bg:#f2f4fb;--card:#fff;--line:#e3e7f4;--ac:#5468ff;--ac2:#3f51e0;--lav:#e6e9ff;--ok:#16915f;--warn:#c27400;--bad:#d03a3a;--r:16px}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "Plus Jakarta Sans",system-ui,sans-serif}
+button,input,select{font:inherit}h1,h2,h3{margin:0;letter-spacing:-.01em}
+[hidden]{display:none!important}
+.auth{min-height:100vh;display:grid;grid-template-columns:1.1fr 1fr}
+.hero{background:linear-gradient(155deg,#111a3b,#2a3a86 70%,#5468ff);color:#fff;padding:56px;display:flex;flex-direction:column;justify-content:space-between}
+.hero h1{font-size:40px;line-height:1.15;max-width:440px}.hero p{color:#c8cffa;max-width:420px}
+.hero ul{list-style:none;padding:0;margin:0;display:grid;gap:10px;color:#dfe3ff}
+.logo{font-weight:800;font-size:22px;display:flex;gap:10px;align-items:center}.logo i{width:30px;height:30px;border-radius:9px;background:#fff;display:inline-block;position:relative}.logo i:after{content:"";position:absolute;inset:8px;border-radius:4px;background:var(--ac)}
+.fwrap{display:grid;place-items:center;padding:32px}.fbox{width:min(400px,100%)}
+.tabs{display:flex;background:var(--lav);border-radius:12px;padding:4px;margin:18px 0}.tabs button{flex:1;border:0;background:transparent;padding:9px;border-radius:9px;cursor:pointer;color:var(--mute);font-weight:600}.tabs button.on{background:#fff;color:var(--ink);box-shadow:0 1px 4px #0001}
+label{display:block;font-size:13px;font-weight:600;color:var(--mute);margin:12px 0 5px}
+input,select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+.btn{background:var(--ac);color:#fff;border:0;border-radius:10px;padding:11px 18px;font-weight:700;cursor:pointer}.btn:hover{background:var(--ac2)}.btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}.btn.sm{padding:6px 12px;font-size:13px}
+.full{width:100%;margin-top:16px}.err{color:var(--bad);min-height:22px;margin:8px 0 0;font-size:14px}
+.demo{margin-top:20px;font-size:13px;color:var(--mute)}.demo button{margin:4px 4px 0 0;border:1px solid var(--line);background:#fff;border-radius:20px;padding:4px 10px;cursor:pointer}
+.app{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+aside{background:var(--navy);color:#cfd5f5;padding:22px 16px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:6px}
+aside .logo{color:#fff;margin:0 8px 22px}
+.nav{display:flex;align-items:center;gap:12px;width:100%;border:0;background:transparent;color:inherit;padding:11px 12px;border-radius:12px;cursor:pointer;text-align:left;font-weight:500}
+.nav svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nav:hover{background:var(--navy2)}.nav.on{background:var(--ac);color:#fff}
+.sw{margin:auto 0 8px;background:var(--navy2);border-radius:12px;padding:12px}.sw small{color:#97a0cf;display:block;margin-bottom:6px}.sw select{background:#111a3b;color:#fff;border-color:#33407a}
+.me{display:flex;gap:10px;align-items:center;padding:10px 8px;border-top:1px solid #2a3668}.av{width:36px;height:36px;border-radius:50%;background:var(--ac);display:grid;place-items:center;font-weight:700;color:#fff;flex:none}
+.me b{display:block;color:#fff;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px}.me span{font-size:12px;color:#97a0cf;text-transform:capitalize}
+main{padding:26px 30px;min-width:0}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;gap:12px;flex-wrap:wrap}.top h2{font-size:26px}.top p{margin:2px 0 0;color:var(--mute)}
+.live{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:6px 12px;font-size:13px;font-weight:600}.dot{width:9px;height:9px;border-radius:50%;background:#b8bed6}.dot.on{background:var(--ok);box-shadow:0 0 0 4px #16915f33;animation:p 1.6s infinite}@keyframes p{50%{box-shadow:0 0 0 7px #16915f00}}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:18px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px}.stat:first-child{background:linear-gradient(135deg,#dfe3ff,#f0e8ff);border-color:#d3d8ff}
+.stat small{color:var(--mute);font-weight:600}.stat b{display:block;font-size:30px;margin-top:4px;letter-spacing:-.02em}.stat span{font-size:13px;color:var(--mute)}
+.row{display:grid;grid-template-columns:1.5fr 1fr;gap:16px;margin-bottom:16px}.row.eq{grid-template-columns:1fr 1fr}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px;min-width:0;margin-bottom:16px}.row .card{margin:0}
+.card h3{font-size:17px;margin-bottom:14px}
+table{width:100%;border-collapse:collapse;font-size:14px}th{text-align:left;color:var(--mute);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.04em}th,td{padding:10px 8px;border-bottom:1px solid var(--line)}tr:last-child td{border:0}.wrap{overflow-x:auto}
+.pill{display:inline-block;padding:2px 10px;border-radius:20px;font-size:12px;font-weight:700;background:var(--lav);color:var(--ac2);text-transform:capitalize}.pill.g{background:#dff5ea;color:var(--ok)}.pill.o{background:#fdeccd;color:var(--warn)}
+.feed{list-style:none;margin:0;padding:0;display:grid;gap:10px}.feed li{display:flex;gap:10px;align-items:center;padding:10px;border-radius:12px;background:var(--bg)}.feed li.new{animation:f .8s}@keyframes f{from{background:#d7ffe9}}
+.bars{display:flex;align-items:flex-end;gap:14px;height:210px;padding-top:10px}.bar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px;height:100%}.bar i{width:100%;max-width:56px;border-radius:10px 10px 4px 4px;background:linear-gradient(var(--ac),#8f9cff);min-height:4px}.bar small{color:var(--mute);font-size:12px}.bar em{font-style:normal;font-size:12px;font-weight:700}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:12px}.seg button{border:0;background:#fff;padding:7px 14px;cursor:pointer}.seg button.on{background:var(--ac);color:#fff}
+.meter{color:var(--mute);font-size:14px;margin:0 0 10px}.meter b{color:var(--ink)}
+.stock{height:8px;background:var(--lav);border-radius:6px;overflow:hidden;min-width:90px}.stock i{display:block;height:100%;background:var(--ok)}.stock i.low{background:var(--bad)}
+.qty{width:70px}.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px}.plan{border:2px solid var(--line);border-radius:var(--r);padding:20px;background:#fff}.plan.cur{border-color:var(--ac);background:#f6f7ff}.plan b{font-size:28px}.plan ul{padding-left:18px;color:var(--mute);margin:10px 0 0}
+.toast{position:fixed;right:20px;bottom:20px;background:var(--navy);color:#fff;padding:12px 16px;border-radius:12px;box-shadow:0 8px 30px #0004;z-index:9;transform:translateY(90px);opacity:0;transition:.3s}.toast.show{transform:none;opacity:1}
+.cold{color:var(--warn);font-weight:700}.warm{color:var(--ok);font-weight:700}
+:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+@media(max-width:980px){.auth,.app{grid-template-columns:1fr}.hero{display:none}aside{position:static;height:auto;flex-direction:row;flex-wrap:wrap}.sw,.me{display:none}.cards,.row,.row.eq,.plans{grid-template-columns:1fr 1fr}main{padding:16px}}
+@media(max-width:620px){.cards,.row,.row.eq,.plans{grid-template-columns:1fr}}
+.lg{height:40px;width:171px;display:block;flex:none}aside .lg{color:#fff;margin:2px 4px 24px;height:40px;width:171px}.hero .lg{color:#fff;height:54px;width:231px;align-self:flex-start}.fbox .lg{color:var(--ink);height:36px;width:154px;margin-bottom:24px;display:none}
+.hero{position:relative;overflow:hidden}.hero:before{content:"";position:absolute;width:560px;height:560px;right:-200px;bottom:-200px;border-radius:50%;background:radial-gradient(#5468ff99,transparent 65%)}.hero>*{position:relative}
+.hfoot{font-size:13px;color:#aab3e8}.stream{display:grid;gap:12px;margin-top:32px;max-width:390px}
+.sc{display:flex;gap:12px;align-items:center;background:#ffffff14;border:1px solid #ffffff2b;backdrop-filter:blur(6px);border-radius:14px;padding:12px 14px;opacity:0;animation:cyc 9s infinite}.sc:nth-child(2){animation-delay:1.4s}.sc:nth-child(3){animation-delay:2.8s}
+.sc b{display:block;font-size:14px;color:#fff}.sc small{color:#bcc5f5}.sc .d{width:10px;height:10px;border-radius:50%;background:#37d98c;flex:none;box-shadow:0 0 0 4px #37d98c33}
+@keyframes cyc{0%{opacity:0;transform:translateY(14px)}8%,82%{opacity:1;transform:none}94%,100%{opacity:0}}
+.fbox h2{font-size:28px}.hint{font-size:13px;color:var(--mute);margin:4px 0 0}.fbox .tabs{margin:18px 0 16px}
+.gg{display:flex;gap:10px;align-items:center;justify-content:center;text-decoration:none;margin-top:0;font-weight:600}.gg:hover{background:var(--bg)}
+.or{display:flex;align-items:center;gap:12px;color:var(--mute);font-size:13px;margin:16px 0 4px}.or:before,.or:after{content:"";flex:1;height:1px;background:var(--line)}
+.pw{position:relative}.pw input{padding-right:64px}.eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:var(--ac2);font-weight:700;cursor:pointer;font-size:13px}
+.sm{height:6px;background:var(--lav);border-radius:6px;margin-top:10px;overflow:hidden}.sm i{display:block;height:100%;width:0;transition:.25s}
+input:focus{border-color:var(--ac);box-shadow:0 0 0 3px #5468ff26;outline:0}.btn:disabled{opacity:.65;cursor:wait}
+.try{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}.demos{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}.demos button{border:1px solid var(--line);background:#fff;border-radius:12px;padding:9px 8px;cursor:pointer;text-align:left}.demos button:hover{border-color:var(--ac);background:#f6f7ff}.demos b{display:block;font-size:13px}.demos small{color:var(--mute);font-size:12px}
+.shake{animation:sh .35s}@keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.lv{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.06em;color:var(--ok);background:#dff5ea;border-radius:6px;padding:1px 6px;vertical-align:middle;margin-left:4px}
+.stat.live b{animation:pop .5s}@keyframes pop{from{transform:translateY(6px);opacity:.3}}
+.flash td,tr.new td{animation:fl 1.5s}@keyframes fl{from{background:#d7ffe9}}
+.trk{list-style:none;margin:0 0 4px;padding:0;display:grid;gap:10px}.trk li{display:grid;grid-template-columns:84px 1fr;gap:8px 12px;align-items:center;padding:12px;background:var(--bg);border-radius:12px}
+.steps{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap}.steps i{font-style:normal;font-size:12px;font-weight:600;padding:4px 10px;border-radius:20px;background:#fff;color:var(--mute);border:1px solid var(--line)}.steps i.done{background:#dff5ea;color:var(--ok);border-color:#bfe8d2}.steps i.cur{background:var(--lav);color:var(--ac2);border-color:#cdd3ff;animation:blink 1s infinite}@keyframes blink{50%{opacity:.5}}
+@media(max-width:980px){.fbox .lg{display:block}}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="logo" viewBox="0 0 205 48">
+<circle cx="24" cy="24" r="21" fill="none" stroke="currentColor" stroke-width="2.4"/>
+<path d="M33.2 10.9A16 16 0 0 1 33.2 37.1" fill="none" stroke="#2fbf71" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0.01 4.2"/>
+<text x="24" y="32.5" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="25" font-weight="700" fill="currentColor">T</text>
+<text x="55" y="34" font-family="'Plus Jakarta Sans',system-ui,sans-serif" font-size="29" letter-spacing="-.5" fill="currentColor"><tspan font-weight="800">Trade</tspan><tspan font-weight="300">line</tspan></text>
+</symbol></svg>
+
+<div class="auth" id="auth">
+  <div class="hero">
+    <svg class="lg" viewBox="0 0 205 48" role="img" aria-label="Tradeline"><use href="#logo"/></svg>
+    <div class="hmid"><h1>Every order, tracked in real time.</h1>
+      <p>One console for all your customer workspaces. Orders queue in Kafka, stock updates the moment they’re processed, and invoices go out on their own.</p>
+      <div class="stream" aria-hidden="true">
+        <div class="sc"><i class="d"></i><div><b>Order accepted</b><small>POST /api/v1/orders · 202</small></div></div>
+        <div class="sc"><i class="d"></i><div><b>Processed by consumer</b><small>tenant.orders · partition 2 · stock updated</small></div></div>
+        <div class="sc"><i class="d"></i><div><b>Invoice ready</b><small>serverless · warm start · 41 ms</small></div></div>
+      </div></div>
+    <p class="hfoot">Tenant-isolated data · Role-based access · Secure cookie sessions</p>
+  </div>
+  <div class="fwrap"><div class="fbox">
+    <svg class="lg" viewBox="0 0 205 48" role="img" aria-label="Tradeline"><use href="#logo"/></svg>
+    <h2 id="at">Welcome back</h2><p class="hint" id="asub">Sign in to continue to your workspace.</p>
+    <div class="tabs"><button class="on" id="t-in" type="button">Sign in</button><button id="t-up" type="button">Create company</button></div>
+    <a class="btn ghost full gg" href="/auth/google"><svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#4285F4" d="M45 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h11.8c-.5 2.8-2 5.1-4.3 6.7v5.5h7C42.6 37.1 45 31.4 45 24.5z"/><path fill="#34A853" d="M24 46c5.9 0 10.9-2 14.5-5.3l-7-5.5c-2 1.3-4.4 2.1-7.5 2.1-5.8 0-10.7-3.9-12.5-9.2H4.3v5.7C7.9 41.1 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.5 28.1c-.5-1.300-.7-2.700-.7-4.100s.3-2.800.7-4.100v-5.700H4.300C2.800 17.200 2 20.500 2 24s.8 6.800 2.300 9.800l7.200-5.700z"/><path fill="#EA4335" d="M24 10.700c3.300 0 6.200 1.100 8.500 3.300l6.400-6.400C34.900 4.100 29.900 2 24 2 15.400 2 7.900 6.900 4.300 14.200l7.200 5.700c1.800-5.300 6.700-9.200 12.500-9.200z"/></svg>Continue with Google</a>
+    <div class="or"><span>or use email</span></div>
+    <form id="fin">
+      <label for="e1">Email</label><input id="e1" type="email" autocomplete="username" placeholder="you@company.com" required>
+      <label for="p1">Password</label><div class="pw"><input id="p1" type="password" autocomplete="current-password" required><button type="button" class="eye" data-eye="p1">Show</button></div>
+      <button class="btn full">Sign in</button>
+    </form>
+    <form id="fup" hidden>
+      <label for="c2">Company name</label><input id="c2" placeholder="Acme Traders" required>
+      <label for="n2">Your name</label><input id="n2" autocomplete="name" required>
+      <label for="e2">Work email</label><input id="e2" type="email" autocomplete="username" required>
+      <label for="p2">Password</label><div class="pw"><input id="p2" type="password" autocomplete="new-password" minlength="8" required><button type="button" class="eye" data-eye="p2">Show</button></div>
+      <div class="sm"><i id="sm"></i></div><span class="hint" id="sl">Use 8+ characters with letters and numbers</span>
+      <button class="btn full">Create workspace</button>
+    </form>
+    <p class="err" id="err" role="alert"></p>
+    <div class="try"><span class="hint">No account yet? Try a demo workspace</span>
+      <div class="demos"><button type="button" data-e="superadmin@saas.test"><b>SuperAdmin</b><small>All tenants</small></button><button type="button" data-e="manager@acme.test"><b>Manager</b><small>Acme Traders</small></button><button type="button" data-e="employee@acme.test"><b>Employee</b><small>Orders only</small></button></div></div>
+  </div></div>
+</div>
+
+<div class="app" id="app" hidden>
+  <aside>
+    <svg class="lg" viewBox="0 0 205 48" role="img" aria-label="Tradeline"><use href="#logo"/></svg>
+    <nav id="nav"></nav>
+    <div class="sw" id="sw" hidden><small>Workspace</small><select id="tsel" aria-label="Workspace"></select></div>
+    <div class="me"><div class="av" id="av"></div><div><b id="wm"></b><span id="wr"></span></div></div>
+  </aside>
+  <main>
+    <div class="top"><div><h2 id="ptitle"></h2><p id="psub"></p></div><span class="live"><i class="dot" id="dot"></i><span id="lt">Connecting</span></span></div>
+
+    <section id="p-overview">
+      <div class="cards" id="cards"></div>
+      <div class="row"><div class="card"><h3>Monthly revenue</h3><div class="bars" id="chart"></div></div>
+        <div class="card"><h3>Live activity</h3><ul class="feed" id="feed"></ul></div></div>
+      <div class="card"><h3 id="ovh"></h3><div class="wrap"><table id="ovt"></table></div></div>
+    </section>
+
+    <section id="p-orders" hidden>
+      <div class="card"><h3>Live order tracker <span class="lv">LIVE</span></h3><ul class="trk" id="trk"></ul></div>
+      <div class="row eq">
+        <div class="card"><h3>New order</h3><label for="cust">Customer</label><input id="cust" value="Walk-in customer">
+          <div class="wrap"><table><thead><tr><th>Product</th><th>Price</th><th>Qty</th></tr></thead><tbody id="pl"></tbody></table></div>
+          <p class="meter" id="omsg" role="status"></p><button class="btn" id="place">Place order</button> <button class="btn ghost" id="sim" type="button">Start live demo traffic</button></div>
+        <div class="card"><h3>Order history</h3>
+          <div class="seg"><button class="on" id="mf">Fast · 1 JOIN</button><button id="ms">Slow · N+1</button></div>
+          <p class="meter" id="om"></p><div class="wrap"><table><thead><tr><th>Order</th><th>Customer</th><th>Total</th><th>Date</th></tr></thead><tbody id="ol"></tbody></table></div></div>
+      </div>
+    </section>
+
+    <section id="p-inventory" hidden><div class="card"><div class="wrap"><table><thead><tr><th>Product</th><th>Price</th><th>Stock</th><th></th><th id="rh"></th></tr></thead><tbody id="inv"></tbody></table></div></div></section>
+
+    <section id="p-team" hidden><div class="row eq">
+      <div class="card"><h3>Team members</h3><table><thead><tr><th>Email</th><th>Role</th></tr></thead><tbody id="ul"></tbody></table></div>
+      <div class="card"><h3>Add a member</h3><label for="ne">Email</label><input id="ne" type="email"><label for="np">Temporary password</label><input id="np" type="text" minlength="8">
+        <label for="nr">Role</label><select id="nr"><option value="employee">Employee</option></select><p class="meter" id="nm" role="status"></p><button class="btn" id="na">Add member</button></div></div></section>
+
+    <section id="p-invoices" hidden><div class="cards" id="icards" style="grid-template-columns:repeat(3,1fr)"></div>
+      <div class="card"><h3>Invoice log (serverless function)</h3><div class="wrap"><table><thead><tr><th>Order</th><th>Customer</th><th>Total</th><th>Start</th><th>Latency</th></tr></thead><tbody id="il"></tbody></table></div></div></section>
+
+    <section id="p-system" hidden><div class="row eq">
+      <div class="card"><h3>Kafka consumer log</h3><div class="wrap"><table><thead><tr><th>Partition</th><th>Offset</th><th>Order</th><th>Processed</th></tr></thead><tbody id="kl"></tbody></table></div></div>
+      <div class="card"><h3>Tenant isolation check</h3><p class="meter">Asks for this workspace’s newest order through a different tenant. The API must refuse.</p><button class="btn" id="iso">Run check</button><p id="io" role="status"></p></div></div></section>
+
+    <section id="p-subs" hidden><div class="plans" id="plans"></div><div class="card" id="admsub" hidden><h3>All tenants</h3><div class="wrap"><table><thead><tr><th>Tenant</th><th>Plan</th><th>Change</th></tr></thead><tbody id="sl"></tbody></table></div></div></section>
+
+    <section id="p-settings" hidden><div class="card" style="max-width:520px"><h3>Profile</h3><table id="prof"></table>
+      <p class="meter" style="margin-top:14px">Session: access token 15 min, refresh token 7 days (rotated on every refresh). Cookies are httpOnly.</p><button class="btn ghost" id="lo">Sign out</button></div></section>
+  </main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const $=id=>document.getElementById(id),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const money=n=>'$'+Math.round(n).toLocaleString(),PRICE={starter:49,growth:199,enterprise:599};
+let me,tenant,mode='fast',panel='overview',feed=[],es,toastT,trk=[],P=[],S={},simT;
+const NAV=[['overview','Home','M3 11l9-8 9 8v10H3z'],['orders','Orders','M4 6h16M4 12h16M4 18h10'],['inventory','Inventory','M3 7l9-4 9 4v10l-9 4-9-4zM3 7l9 4 9-4'],['team','Team','M9 11a3.5 3.5 0 100-7 3.5 3.5 0 000 7zM2 21a7 7 0 0114 0M17 4a3.5 3.5 0 010 7M22 21a7 7 0 00-4-6',1],['invoices','Invoices','M6 3h12v18l-3-2-3 2-3-2-3 2z',1],['system','System','M3 12h4l3-8 4 16 3-8h4',1],['subs','Subscriptions','M3 7h18v10H3zM3 11h18',1],['settings','Settings','M12 9a3 3 0 100 6 3 3 0 000-6zM19 12l2-1-2-4-2 1-2-1-1-2H9L8 7 6 8 4 7 2 11l2 1v2l-2 1 2 4 2-1 2 1 1 2h6l1-2 2-1 2 1 2-4-2-1z']];
+const TITLES={overview:'Home',orders:'Orders',inventory:'Inventory',team:'Team',invoices:'Invoices',system:'System',subs:'Subscriptions',settings:'Settings'};
+const isM=()=>me.role!=='employee',isSA=()=>me.role==='superadmin';
+
+async function api(url,o={},t){
+  const go=()=>fetch(url,{...o,headers:{'content-type':'application/json',...((t||tenant)&&url.startsWith('/api/v1')?{'x-tenant-id':t||tenant}:{})}});
+  let r=await go();
+  if(r.status===401&&!url.startsWith('/auth')){const rr=await fetch('/auth/refresh',{method:'POST'});if(rr.ok)r=await go();else{showAuth();return{status:401,data:{}}}}
+  return{status:r.status,data:await r.json().catch(()=>({}))}}
+const v1=(p,o,t)=>api('/api/v1'+p,o,t);
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),3500)}
+
+/* ---------- auth screen ---------- */
+function stopSim(){clearInterval(simT);simT=null;const b=$('sim');if(b)b.textContent='Start live demo traffic'}
+function showAuth(){stopSim();if(es)es.close();me=null;$('app').hidden=true;$('auth').hidden=false}
+const tab=up=>{$('fin').hidden=up;$('fup').hidden=!up;$('t-in').classList.toggle('on',!up);$('t-up').classList.toggle('on',up);$('at').textContent=up?'Create your workspace':'Welcome back';$('asub').textContent=up?'Set up a new company. You’ll be its Manager.':'Sign in to continue to your workspace.';$('err').textContent=''};
+$('t-in').onclick=()=>tab(false);$('t-up').onclick=()=>tab(true);
+document.querySelectorAll('[data-e]').forEach(b=>b.onclick=()=>{tab(false);$('e1').value=b.dataset.e;$('p1').value='Passw0rd!23'});
+const busy=(f,on,t)=>{const b=f.querySelector('.btn');b.dataset.t=b.dataset.t||b.textContent;b.disabled=on;b.textContent=on?t:b.dataset.t};
+const fail=m=>{$('err').textContent=m;const f=$('fin').hidden?$('fup'):$('fin');f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake')};
+$('fin').onsubmit=async e=>{e.preventDefault();busy($('fin'),1,'Signing in…');const r=await api('/auth/login',{method:'POST',body:JSON.stringify({email:$('e1').value,password:$('p1').value})});busy($('fin'),0);r.status===200?boot(r.data):fail(r.data.error||'Sign in failed')};
+$('fup').onsubmit=async e=>{e.preventDefault();busy($('fup'),1,'Creating workspace…');const r=await api('/auth/register',{method:'POST',body:JSON.stringify({company:$('c2').value,name:$('n2').value,email:$('e2').value,password:$('p2').value})});busy($('fup'),0);r.status===201?boot(r.data):fail(r.data.error||'Could not register')};
+document.querySelectorAll('[data-eye]').forEach(b=>b.onclick=()=>{const i=$(b.dataset.eye),h=i.type==='password';i.type=h?'text':'password';b.textContent=h?'Hide':'Show'});
+$('p2').oninput=()=>{const v=$('p2').value;let k=0;if(v.length>=8)k++;if(/[A-Z]/.test(v)&&/[a-z]/.test(v))k++;if(/\d/.test(v))k++;if(/[^A-Za-z0-9]/.test(v)||v.length>=12)k++;$('sm').style.width=k*25+'%';$('sm').style.background=['#d03a3a','#d03a3a','#c27400','#16915f','#16915f'][k];$('sl').textContent=v?['Too weak','Weak','Okay','Good','Strong'][k]:'Use 8+ characters with letters and numbers'};
+$('lo').onclick=async()=>{await api('/auth/logout',{method:'POST'});showAuth()};
+const qe=new URLSearchParams(location.search).get('error');if(qe)$('err').textContent='Google sign-in failed ('+qe+').';
+
+/* ---------- app shell ---------- */
+async function boot(u){
+  me=u;$('auth').hidden=true;$('app').hidden=false;$('err').textContent='';
+  $('av').textContent=(me.email[0]||'?').toUpperCase();$('wm').textContent=me.email;$('wr').textContent=me.role;
+  $('nav').innerHTML=NAV.filter(n=>!n[3]||isM()).map(n=>`<button class="nav" data-p="${n[0]}"><svg viewBox="0 0 24 24"><path d="${n[2]}"/></svg>${n[1]}</button>`).join('');
+  document.querySelectorAll('.nav').forEach(b=>b.onclick=()=>go(b.dataset.p));
+  $('nr').innerHTML='<option value="employee">Employee</option>'+(isSA()?'<option value="manager">Manager</option>':'');
+  tenant=me.tenant;
+  if(isSA()){const t=(await api('/api/tenants')).data;tenant=tenant||t[0].id;$('sw').hidden=false;$('tsel').innerHTML=t.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join('');$('tsel').value=tenant;
+    $('tsel').onchange=()=>{tenant=$('tsel').value;feed=[];trk=[];P=[];S={};$('pl').innerHTML='';stopSim();live();go(panel)}}
+  live();go('overview')}
+function go(p){panel=p;document.querySelectorAll('section[id^=p-]').forEach(s=>s.hidden=s.id!=='p-'+p);
+  document.querySelectorAll('.nav').forEach(b=>b.classList.toggle('on',b.dataset.p===p));
+  $('ptitle').textContent=p==='overview'?'Welcome, '+esc(me.email.split('@')[0]):TITLES[p];
+  $('psub').textContent=({overview:'Here’s what’s happening in your workspace today.',orders:'Orders are queued in Kafka and saved by the consumer.',inventory:'Stock levels update as orders are processed.',team:'People who can sign in to this workspace.',invoices:'Generated by the serverless function.',system:'Pipeline health and tenant isolation.',subs:'Plans and billing for each workspace.',settings:'Your account and session.'})[p];
+  LOAD[p]&&LOAD[p]()}
+
+/* ---------- real-time (SSE) ---------- */
+function live(){
+  if(es)es.close();es=new EventSource('/api/v1/events?tenant='+encodeURIComponent(tenant||''));
+  es.onopen=()=>{$('dot').classList.add('on');$('lt').textContent='Live'};
+  es.onmessage=e=>onEvent(JSON.parse(e.data));
+  es.onerror=async()=>{es.close();$('dot').classList.remove('on');$('lt').textContent='Reconnecting';
+    const r=await fetch('/auth/refresh',{method:'POST'});r.ok?setTimeout(live,2000):showAuth()}}
+
+/* ---------- panels ---------- */
+function paintOverview(){
+ const d=S.stats,ad=isSA()?S.ad:null;if(!d)return;const low=P.filter(x=>x.stock<100).length;
+ const cards=ad?[['Tenants',ad.length,'registered workspaces'],['Active users',ad.reduce((a,t)=>a+t.users,0),'across all tenants'],['MRR',money(ad.reduce((a,t)=>a+PRICE[t.plan],0)),'from subscriptions'],['Orders',ad.reduce((a,t)=>a+t.orders,0).toLocaleString(),'all tenants']]
+  :[['Revenue (30d)',money(d.revenue30),d.orders30.toLocaleString()+' orders',1],['Orders today',d.ordersToday.toLocaleString(),money(d.revenueToday)+' today',1],['Low stock',low,'products under 100 units',1],['Team members',d.users,'in this workspace']];
+ $('cards').innerHTML=cards.map(c=>`<div class="stat ${c[3]?'live':''}"><small>${c[0]}${c[3]?' <span class="lv">LIVE</span>':''}</small><b>${c[1]}</b><span>${c[2]}</span></div>`).join('');
+ const mx=Math.max(1,...d.monthly.map(m=>m.v));
+ $('chart').innerHTML=d.monthly.map(m=>`<div class="bar"><em>${money(m.v/1000)}k</em><i style="height:${m.v/mx*85}%"></i><small>${new Date(m.d).toLocaleString('en',{month:'short'})}</small></div>`).join('')||'<p class="meter">No revenue yet.</p>';
+ $('feed').innerHTML=feed.map(f=>`<li class="${f.fresh?'new':''}"><span class="pill g">${money(f.total)}</span><div><b>${esc(f.customer)}</b><br><small style="color:var(--mute)">${f.t.toLocaleTimeString()}</small></div></li>`).join('')||'<li class="meter">Waiting for orders…</li>';feed.forEach(f=>f.fresh=0);
+ if(ad){$('ovh').textContent='Tenant overview';$('ovt').innerHTML='<thead><tr><th>Company</th><th>Users</th><th>Orders</th><th>Revenue</th><th>Last order</th><th>Plan</th></tr></thead><tbody>'+ad.map(t=>`<tr><td><b>${esc(t.name)}</b></td><td>${t.users}</td><td>${t.orders.toLocaleString()}</td><td>${money(t.revenue)}</td><td>${t.last_order?new Date(t.last_order).toLocaleDateString():'—'}</td><td><span class="pill">${t.plan}</span></td></tr>`).join('')+'</tbody>'}
+ else{$('ovh').textContent='Top products';$('ovt').innerHTML='<thead><tr><th>Product</th><th>Units sold</th></tr></thead><tbody>'+d.top.map(t=>`<tr><td>${esc(t.name)}</td><td>${t.sold.toLocaleString()}</td></tr>`).join('')+'</tbody>'}}
+function paintInventory(ids){
+ if(!ids){$('rh').textContent=isM()?'Restock':'';
+  $('inv').innerHTML=P.map(x=>`<tr id="r${x.id}"><td><b>${esc(x.name)}</b></td><td>${x.price}</td><td id="sv${x.id}">${x.stock}</td><td><div class="stock"><i id="sb${x.id}" class="${x.stock<100?'low':''}" style="width:${Math.min(100,x.stock/5)}%"></i></div></td><td>${isM()?`<input class="qty" type="number" min="0" value="${x.stock}" id="s${x.id}" aria-label="Stock ${esc(x.name)}"> <button class="btn sm" data-r="${x.id}">Save</button>`:''}</td></tr>`).join('');
+  document.querySelectorAll('[data-r]').forEach(b=>b.onclick=async()=>{const r=await v1('/products/'+b.dataset.r,{method:'PATCH',body:JSON.stringify({stock:+$('s'+b.dataset.r).value})});toast(r.status===200?'Stock updated':r.data.error);LOAD.inventory()});return}
+ ids.forEach(id=>{const p=P.find(x=>x.id===id),r=$('r'+id);if(!p||!r)return;$('sv'+id).textContent=p.stock;const b=$('sb'+id);b.style.width=Math.min(100,p.stock/5)+'%';b.classList.toggle('low',p.stock<100);const i=$('s'+id);if(i&&document.activeElement!==i)i.value=p.stock;r.classList.remove('flash');void r.offsetWidth;r.classList.add('flash')})}
+function renderTrack(){const el=$('trk');if(!el)return;
+ el.innerHTML=trk.map(t=>`<li><b>${t.id.slice(0,8)}</b><span>${esc(t.customer)} · ${money(t.total)}</span><div class="steps">${['Queued in Kafka','Saved + stock updated','Invoice sent'].map((n,i)=>`<i class="${t.step>i?'done':t.step===i&&t.step<3?'cur':''}">${n}${i===2&&t.ms?' · '+(t.cold?'cold ':'warm ')+t.ms+' ms':''}</i>`).join('')}</div></li>`).join('')||'<li class="meter">Place an order or start demo traffic to watch orders move through the pipeline.</li>'}
+function onEvent(d){
+ if(d.type==='order.queued'){trk.unshift({id:d.orderId,customer:d.customer,total:d.total,step:1});trk=trk.slice(0,6);renderTrack()}
+ else if(d.type==='order.processed'){
+  const t=trk.find(x=>x.id===d.orderId);if(t)t.step=2;else{trk.unshift({id:d.orderId,customer:d.customer,total:d.total,step:2});trk=trk.slice(0,6)}
+  renderTrack();
+  const s=S.stats;if(s){s.revenue30+=d.total;s.revenue+=d.total;s.orders++;s.orders30++;s.ordersToday++;s.revenueToday+=d.total;const m=s.monthly,n=new Date(),l=m[m.length-1];if(l&&new Date(l.d).getUTCMonth()===n.getUTCMonth())l.v+=d.total;else m.push({d:n.toISOString(),v:d.total})}
+  feed.unshift({customer:d.customer,total:d.total,t:new Date(),fresh:1});feed=feed.slice(0,6);
+  if(panel==='overview')paintOverview();
+  if(panel==='orders'){const ol=$('ol'),f=ol.firstElementChild;if(f&&f.children.length===1)f.remove();ol.insertAdjacentHTML('afterbegin',`<tr class="new"><td>${d.orderId.slice(0,8)}</td><td>${esc(d.customer)}</td><td>${money(d.total)}</td><td>${new Date(d.createdAt).toLocaleDateString()}</td></tr>`);while(ol.children.length>12)ol.lastElementChild.remove()}
+  if(!simT)toast('New order · '+money(d.total)+' · '+d.customer)}
+ else if(d.type==='inventory.updated'){d.stock.forEach(x=>{const p=P.find(q=>q.id===x.id);if(p)p.stock=x.stock});if(panel==='inventory')paintInventory(d.stock.map(x=>x.id));if(panel==='overview')paintOverview()}
+ else if(d.type==='invoice.ready'){const t=trk.find(x=>x.id===d.orderId);if(t){t.step=3;t.cold=d.cold;t.ms=d.ms;renderTrack()}if(panel==='invoices')LOAD.invoices()}}
+const LOAD={
+ async overview(){
+  const [s,p]=await Promise.all([v1('/stats'),v1('/products')]);S.stats=s.data;P=p.data;
+  if(!feed.length){const o=await v1('/orders?limit=5');feed=o.data.orders.map(x=>({customer:x.customer,total:x.total,t:new Date(x.created_at)}))}
+  if(isSA())S.ad=(await api('/api/admin/overview')).data;
+  paintOverview()},
+ async orders(){
+  if(!$('pl').children.length){P=(await v1('/products')).data;$('pl').innerHTML=P.map(x=>`<tr><td>${esc(x.name)}</td><td>${x.price}</td><td><input class="qty" type="number" min="0" value="0" data-pid="${x.id}" aria-label="Quantity ${esc(x.name)}"></td></tr>`).join('')}
+  renderTrack();
+  const {data}=await v1('/orders?limit=12&mode='+mode);
+  $('om').innerHTML=`<b>${data.queries}</b> ${data.queries===1?'query':'queries'} · <b>${data.ms.toFixed(1)} ms</b>`;
+  $('ol').innerHTML=data.orders.map(o=>`<tr><td>${o.id.slice(0,8)}</td><td>${esc(o.customer)}</td><td>${money(o.total)}</td><td>${new Date(o.created_at).toLocaleDateString()}</td></tr>`).join('')||'<tr><td colspan="4">No orders yet.</td></tr>'},
+ async inventory(){P=(await v1('/products')).data;paintInventory()},
+ async team(){const u=(await v1('/users')).data;$('ul').innerHTML=u.map(x=>`<tr><td>${esc(x.email)}</td><td><span class="pill">${x.role}</span></td></tr>`).join('')},
+ async invoices(){const l=(await v1('/invoices')).data;const c=l.filter(x=>x.cold_start),w=l.filter(x=>!x.cold_start),av=a=>a.length?Math.round(a.reduce((s,x)=>s+x.latency_ms,0)/a.length)+' ms':'—';
+  $('icards').innerHTML=[['Invoices',l.length,'last 30'],['Cold start avg',av(c),c.length+' calls'],['Warm start avg',av(w),w.length+' calls']].map(x=>`<div class="stat"><small>${x[0]}</small><b>${x[1]}</b><span>${x[2]}</span></div>`).join('');
+  $('il').innerHTML=l.map(x=>`<tr><td>${x.order_id.slice(0,8)}</td><td>${esc(x.customer)}</td><td>${money(x.total)}</td><td class="${x.cold_start?'cold':'warm'}">${x.cold_start?'Cold':'Warm'}</td><td>${x.latency_ms} ms</td></tr>`).join('')||'<tr><td colspan="5">No invoices yet. Start the consumer and place an order.</td></tr>'},
+ async system(){const k=(await v1('/pipeline')).data.offsets;$('kl').innerHTML=k.map(x=>`<tr><td>${x.partition}</td><td>${x.offset}</td><td>${x.order_id.slice(0,8)}</td><td>${new Date(x.processed_at).toLocaleTimeString()}</td></tr>`).join('')||'<tr><td colspan="4">Nothing processed yet.</td></tr>'},
+ async subs(){const s=(await v1('/stats')).data;const P=[['starter','Starter',['3 team members','Kafka orders','Email support']],['growth','Growth',['25 team members','Priority pipeline','Invoice automation']],['enterprise','Enterprise',['Unlimited members','Dedicated partitions','SSO + audit log']]];
+  $('plans').innerHTML=P.map(p=>`<div class="plan ${p[0]===s.plan?'cur':''}"><span class="pill ${p[0]===s.plan?'g':''}">${p[0]===s.plan?'Current plan':p[1]}</span><div><b>$${PRICE[p[0]]}</b> /mo</div><ul>${p[2].map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('');
+  $('admsub').hidden=!isSA();if(isSA()){const a=(await api('/api/admin/overview')).data;$('sl').innerHTML=a.map(t=>`<tr><td><b>${esc(t.name)}</b></td><td><span class="pill">${t.plan}</span></td><td><select data-t="${t.id}" aria-label="Plan for ${esc(t.name)}">${Object.keys(PRICE).map(k=>`<option ${k===t.plan?'selected':''}>${k}</option>`).join('')}</select></td></tr>`).join('');
+   document.querySelectorAll('[data-t]').forEach(s=>s.onchange=async()=>{await api('/api/admin/tenants/'+s.dataset.t+'/plan',{method:'PUT',body:JSON.stringify({plan:s.value})});toast('Plan updated');LOAD.subs()})}},
+ settings(){$('prof').innerHTML=[['Email',me.email],['Role',me.role],['Workspace',me.tenant||'All tenants']].map(r=>`<tr><th>${r[0]}</th><td>${esc(r[1])}</td></tr>`).join('')}
+};
+$('place').onclick=async()=>{const items=[...document.querySelectorAll('[data-pid]')].filter(i=>+i.value>0).map(i=>({productId:+i.dataset.pid,qty:+i.value}));
+  if(!items.length){$('omsg').textContent='Add a quantity to at least one product.';return}
+  const r=await v1('/orders',{method:'POST',body:JSON.stringify({customer:$('cust').value||'Walk-in customer',items})});
+  $('omsg').textContent=r.status===202?'Accepted (202). Order '+r.data.orderId.slice(0,8)+' is queued, it will appear live.':(r.data.error||'Failed');
+  document.querySelectorAll('[data-pid]').forEach(i=>i.value=0)};
+$('mf').onclick=()=>{mode='fast';$('mf').classList.add('on');$('ms').classList.remove('on');LOAD.orders()};
+$('ms').onclick=()=>{mode='slow';$('ms').classList.add('on');$('mf').classList.remove('on');LOAD.orders()};
+$('na').onclick=async()=>{const r=await v1('/users',{method:'POST',body:JSON.stringify({email:$('ne').value,password:$('np').value,role:$('nr').value})});
+  $('nm').textContent=r.status===201?'Member added.':r.data.error;if(r.status===201){$('ne').value=$('np').value='';LOAD.team()}};
+$('iso').onclick=async()=>{const other=tenant==='acme'?'globex':'acme',m=(await v1('/orders?limit=1')).data.orders[0];
+  if(!m){$('io').textContent='Place an order first.';return}
+  const c=await v1('/orders/'+m.id,{},other),ok=c.status===403||c.status===404;
+  $('io').innerHTML=`Request through “${esc(other)}”: <b class="${ok?'warm':'cold'}">${c.status}</b> ${ok?'blocked, as expected':'LEAK!'}`};
+$('sim').onclick=()=>{
+ if(simT){stopSim();return}
+ $('sim').textContent='Stop demo traffic';const names=['Northwind','Contoso','Fabrikam','Initech','Umbrella','Wayne Co','Stark Ltd','Hooli'];
+ const fire=async()=>{if(!P.length)P=(await v1('/products')).data;const items=[...P].sort(()=>Math.random()-.5).slice(0,1+Math.floor(Math.random()*3)).map(p=>({productId:p.id,qty:1+Math.floor(Math.random()*3)}));
+  await v1('/orders',{method:'POST',body:JSON.stringify({customer:names[Math.floor(Math.random()*names.length)],items})})};
+ fire();simT=setInterval(fire,3500)};
+(async()=>{const r=await api('/auth/me');r.status===200?boot(r.data):showAuth()})();
+</script></body></html>

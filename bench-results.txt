@@ -1,0 +1,29 @@
+N+1 (201 queries): 320.1 ms
+JOIN (1 query):    6.9 ms
+
+=== EXPLAIN ANALYZE (BEFORE index) ===
+Limit  (cost=2635.28..2635.41 rows=50 width=59) (actual time=11.462..11.471 rows=50 loops=1)
+  Buffers: shared hit=1353
+  ->  Sort  (cost=2635.28..2641.48 rows=2477 width=59) (actual time=11.461..11.465 rows=50 loops=1)
+        Sort Key: created_at DESC
+        Sort Method: top-N heapsort  Memory: 36kB
+        Buffers: shared hit=1353
+        ->  Seq Scan on orders  (cost=0.00..2553.00 rows=2477 width=59) (actual time=0.257..11.126 rows=2412 loops=1)
+              Filter: ((tenant_id = 'acme'::text) AND (created_at > (now() - '30 days'::interval)))
+              Rows Removed by Filter: 57588
+              Buffers: shared hit=1353
+Planning Time: 0.080 ms
+Execution Time: 11.537 ms
+median latency: 13.90 ms
+
+=== EXPLAIN ANALYZE (AFTER index) ===
+Limit  (cost=0.42..92.26 rows=50 width=59) (actual time=0.074..0.215 rows=50 loops=1)
+  Buffers: shared hit=53
+  ->  Index Scan using idx_orders_tenant_created on orders  (cost=0.42..4511.70 rows=2456 width=59) (actual time=0.073..0.203 rows=50 loops=1)
+        Index Cond: ((tenant_id = 'acme'::text) AND (created_at > (now() - '30 days'::interval)))
+        Buffers: shared hit=53
+Planning Time: 0.195 ms
+Execution Time: 0.247 ms
+median latency: 4.08 ms
+
+Speedup: 3.4x
